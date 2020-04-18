@@ -255,16 +255,23 @@ class fwdprop_test_factory:
                 )
 
             # execute mygrad and "true" functions. Compare outputs and check mygrad behavior
-            o = self.op(*(Tensor(i) for i in arrs), **kwargs, constant=constant)
+            tensor_constants = data.draw(
+                st.tuples(*[st.booleans()] * len(arrs)), label="tensor_constants"
+            )
+            o = self.op(
+                *(Tensor(i, constant=c) for i, c in zip(arrs, tensor_constants)),
+                **kwargs,
+                constant=constant,
+            )
             tensor_out = o.data
             true_out = self.true_func(*arrs, **kwargs)
 
             assert isinstance(
                 o, Tensor
-            ), "`mygrad_func` returned type {type(o)}, should return `mygrad.Tensor`"
-            assert (
-                o.constant is constant
-            ), f"`mygrad_func` returned tensor.constant={o.constant}, should be constant={constant}"
+            ), f"`mygrad_func` returned type {type(o)}, should return `mygrad.Tensor`"
+            assert o.constant is constant or bool(
+                sum(tensor_constants)
+            ), f"`mygrad_func` returned tensor.constant={o.constant}, should be constant={ bool(sum(tensor_constants))}"
 
             assert_allclose(
                 actual=tensor_out,

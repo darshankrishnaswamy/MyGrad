@@ -57,7 +57,7 @@ def add(a, b, constant=False):
     Tensor([[  0.,   2.,   4.],
             [  3.,   5.,   7.],
             [  6.,   8.,  10.]])"""
-    return Tensor._op(Add, a, b, constant=constant)
+    return Tensor._op(Add, a, b, force_constant=constant)
 
 
 def subtract(a, b, constant=False):
@@ -89,7 +89,7 @@ def subtract(a, b, constant=False):
             [  3.,   3.,   3.],
             [  6.,   6.,  6.]])
     """
-    return Tensor._op(Subtract, a, b, constant=constant)
+    return Tensor._op(Subtract, a, b, force_constant=constant)
 
 
 def divide(a, b, constant=False):
@@ -108,7 +108,7 @@ def divide(a, b, constant=False):
     Returns
     -------
     mygrad.Tensor"""
-    return Tensor._op(Divide, a, b, constant=constant)
+    return Tensor._op(Divide, a, b, force_constant=constant)
 
 
 def square(a, constant=False):
@@ -125,7 +125,7 @@ def square(a, constant=False):
     Returns
     -------
     mygrad.Tensor"""
-    return Tensor._op(Square, a, constant=constant)
+    return Tensor._op(Square, a, force_constant=constant)
 
 
 def reciprocal(a, constant=False):
@@ -142,7 +142,7 @@ def reciprocal(a, constant=False):
     Returns
     -------
     mygrad.Tensor"""
-    return Tensor._op(Reciprocal, a, constant=constant)
+    return Tensor._op(Reciprocal, a, force_constant=constant)
 
 
 def power(a, b, constant=False):
@@ -161,7 +161,7 @@ def power(a, b, constant=False):
     Returns
     -------
     mygrad.Tensor"""
-    return Tensor._op(Power, a, b, constant=constant)
+    return Tensor._op(Power, a, b, force_constant=constant)
 
 
 def multiply(a, b, constant=False):
@@ -180,7 +180,7 @@ def multiply(a, b, constant=False):
     Returns
     -------
     mygrad.Tensor"""
-    return Tensor._op(Multiply, a, b, constant=constant)
+    return Tensor._op(Multiply, a, b, force_constant=constant)
 
 
 def multiply_sequence(*variables, constant=False):
@@ -209,7 +209,7 @@ def multiply_sequence(*variables, constant=False):
         raise ValueError(
             f"`multiply_sequence` requires at least two inputs, got {len(variables)} inputs"
         )
-    return Tensor._op(MultiplySequence, *variables, constant=constant)
+    return Tensor._op(MultiplySequence, *variables, force_constant=constant)
 
 
 def add_sequence(*variables, constant=False):
@@ -238,7 +238,7 @@ def add_sequence(*variables, constant=False):
         raise ValueError(
             f"`add_sequence` requires at least two inputs, got {len(variables)} inputs"
         )
-    return Tensor._op(AddSequence, *variables, constant=constant)
+    return Tensor._op(AddSequence, *variables, force_constant=constant)
 
 
 def positive(a, where=True, constant=False):
@@ -263,7 +263,9 @@ def positive(a, where=True, constant=False):
     Returns
     -------
     mygrad.Tensor"""
-    return Tensor._op(Positive, a, op_kwargs=(dict(where=where)), constant=constant)
+    return Tensor._op(
+        Positive, a, op_kwargs=(dict(where=where)), force_constant=constant
+    )
 
 
 def negative(a, where=True, constant=False):
@@ -288,4 +290,6 @@ def negative(a, where=True, constant=False):
     mygrad.Tensor
 
 """
-    return Tensor._op(Negative, a, op_kwargs=(dict(where=where)), constant=constant)
+    return Tensor._op(
+        Negative, a, op_kwargs=(dict(where=where)), force_constant=constant
+    )

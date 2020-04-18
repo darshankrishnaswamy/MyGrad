@@ -546,7 +546,7 @@ def gru(
         Wh,
         bh,
         op_kwargs=dict(s0=s0, bp_lim=bp_lim, dropout=dropout),
-        constant=constant,
+        force_constant=constant,
     )
     s.creator._hidden_seq = s
     return s
